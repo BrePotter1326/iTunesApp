@@ -5,6 +5,15 @@
   <button v-on:click="toggleTitle()">title</button>
   <hr>
   <input type="text" v-model="inputText">
+  <button v-on:click="getItuneData()">Get Songs</button>
+  <div id="song">
+    <div class="title"><a v-bind:herf="song.trackViewUrl">{{song.trackName}}</a>{{song.trackName}}</div>
+    <img v-bind:src="song.artworkUrl60">
+    <audio controls>
+      <source v-bind: src="song.previewUrl">
+    </audio>
+    <div class="artistName">{{song.artistName}}</div>
+  </div>
   </div>
 </template>
 
@@ -20,7 +29,8 @@ export default {
       title: "Hey Ya'll!",
       message:"This is a message",
       hiddenMessage:"This a hidden ninja",
-      hasTitle: true
+      hasTitle: true,
+      songsArray:[]
       }
   },
   methods: {
@@ -32,9 +42,11 @@ export default {
     }
   },
   getItuneData(){
-    fetch()
-    .then()
-    .then()
+    fetch(`https://itunes.apple.com/search?term=$(this.inputText)` )
+    .then(data => {
+      data.json()
+    })
+    .then(this.songsArray = data.results)
   }
 }
 </script>
